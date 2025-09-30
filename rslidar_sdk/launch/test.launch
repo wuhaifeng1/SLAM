@@ -1,0 +1,18 @@
+<launch>
+  <rosparam file="$(find hipnuc_imu)/config/hipnuc_config.yaml" command="load"	/>
+  <node pkg="hipnuc_imu" name="serial_imu" type="serial_imu" />
+  
+  <node pkg="tf" type="static_transform_publisher" name="imu_to_rslidar_tf" 
+          args="0 0 -0.1 0 0 0 imu_link velodyne 10"/>
+          
+  <node pkg="tf" type="static_transform_publisher" name="base_to_imu_tf" 
+          args="0 0 0 0 0 0 base_link imu_link 10"/>  
+  
+  <node pkg="rslidar_sdk" name="rslidar_sdk_node" type="rslidar_sdk_node" output="screen">
+  
+  <param name="config_path" value=""/>
+  </node>
+  <!-- rviz -->
+  <!--node pkg="rviz" name="rviz" type="rviz" args="-d $(find rslidar_sdk)/rviz/rviz.rviz" /-->
+  
+</launch>
